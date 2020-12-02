@@ -1,0 +1,12 @@
+{
+    "baseUrl": "http://schedules-client-local.k109.local:31009",
+    "viewportHeight": 900,
+    "viewportWidth": 1200,
+    "integrationFolder": "cypress/e2e",
+    "videosFolder": "cypress/videos",
+    "video": false,
+    "screenshotsFolder": "cypress/screenshots",
+    "supportFile": "cypress/support/index.js",
+    "pluginsFile": "cypress/plugins/index.js",
+    "fixturesFolder": "cypress/fixtures"
+}

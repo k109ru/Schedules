@@ -1,0 +1,20 @@
+.form__del-password-button {
+  margin: 1rem;
+}
+
+.del-password-form-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.del-password-form-helper {
+  width: 50%;
+  margin: 2rem auto;
+  font-size: 2rem;
+  color: rgb(25, 66, 50);
+  // background-color: red;
+  text-align: center;
+  text-shadow: 1px 1px 2px black, 0 0 1em rgb(226, 82, 82);
+}

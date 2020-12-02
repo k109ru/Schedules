@@ -1,0 +1,40 @@
+.home-page {
+  width: 94rem;
+  margin: 0 auto;
+  font-size: 3rem;
+  text-align: center;
+
+  &__title {
+    padding: 2rem;
+    font-size: 4rem;
+  }
+
+  &__info {
+    padding: 1rem;
+  }
+
+  &__text {
+    padding: 1rem;
+  }
+
+  &__videos {
+    display: flex;
+  }
+
+  &__video {
+    margin: 1rem;
+  }
+
+  &__video-lang {
+    font-size: 3rem;
+  }
+
+  &__version {
+    margin-top: 9rem;
+    display: flex;
+    flex-direction: column;
+    font-weight: 300;
+    font-size: 2rem;
+    opacity: 0.6;
+  }
+}

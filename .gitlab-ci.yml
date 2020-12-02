@@ -1,0 +1,156 @@
+
+stages:
+  - build-client
+  - build-server
+  - test-client
+  - build-client-docker
+  - build-server-docker
+  - test-server
+  - deploy-prod
+  - production-tests
+
+build-clent:
+  stage: build-client
+  image: node
+  variables:
+    REACT_APP_API_URL: 'https://schedules-server-demo.k109.ru'
+    REACT_APP_API_VER: '0.2.6'
+  script:
+    - echo "Start building App-client"
+    - cd ./client
+    - touch .env
+    - echo REACT_APP_API_URL=${REACT_APP_API_URL} >> .env
+    - echo REACT_APP_API_VER=${REACT_APP_API_VER} >> .env
+    - echo REACT_APP_API_BUILD=${CI_COMMIT_SHORT_SHA} >> .env
+    - cat .env
+    - npm install
+    - npm run build
+    - echo "Build successfully"
+  artifacts:
+    expire_in: 3 hour
+    paths:
+      - ./client/build
+      - ./client/node_modules/
+      - ./client/.env
+  only:
+    - master
+
+build-server:
+  stage: build-server
+  image: node:alpine
+  script:
+    - echo "Start build server"
+    - cd ./server
+    - npm install
+    - npm build
+  artifacts:
+    expire_in: 3 hour
+    paths:
+      - ./server/dist/
+      - ./server/node_modules/
+  only:
+    - master
+
+test-client:
+  stage: test-client
+  image: node
+  script:
+    - echo "Testing App-client"
+    - cd ./client
+    - CI=true npm test
+    - echo "Test succesfully"
+  only:
+    - master
+
+build-client-docker-image:
+  stage: build-client-docker
+  image: docker:18.09.7
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
+  services: 
+    - name: docker:18.09.7-dind
+      command: ["--insecure-registry=YOUR_LOCAL_DOCKER_REGISTRY:5000"]
+  script:
+    - echo "Start building docker image"
+    - cd ./client
+    - env
+    - docker build -t YOUR_LOCAL_DOCKER_REGISTRY:5000/schedules-client-demo:v0.2.6 .
+    - docker push YOUR_LOCAL_DOCKER_REGISTRY:5000/schedules-client-demo:v0.2.6
+    - echo "Registry image:" YOUR_LOCAL_DOCKER_REGISTRY:5000/schedules-client-demo:v0.2.6
+    - echo "Build successfully"
+  only:
+    - master
+
+build-server-docker-image:
+  stage: build-server-docker
+  image: docker:18.09.7
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
+  services:
+    - name: docker:18.09.7-dind
+      command: ['--insecure-registry=YOUR_LOCAL_DOCKER_REGISTRY:5000']
+  script:
+    - echo "Start building docker image"
+    - cd ./server
+    - docker build -t YOUR_LOCAL_DOCKER_REGISTRY:5000/schedules-server-demo:v0.2.6 .
+    - docker push YOUR_LOCAL_DOCKER_REGISTRY:5000/schedules-server-demo:v0.2.6
+    - echo "Build successfully"
+  only:
+    - master
+
+test:
+  stage: test-server
+  image: YOUR_LOCAL_DOCKER_REGISTRY:5000/schedules-server-demo:v0.2.6
+  variables:
+    FF_NETWORK_PER_BUILD: 1
+    PRISMA_ENDPOINT: http://prisma:4466/
+    PRISMA_SECRET: topsecret
+    JWT_SECRET: topsecret
+    DOCKER_TLS_CERTDIR: ''
+    FRONTEND_URL: http://localhost:3001
+    DOCKER_HOST: tcp://localhost:2375
+    DOCKER_DRIVER: overlay2
+    PRISMA_CONFIG: |
+      port: 4466
+      databases:
+        default:
+          connector: mongo
+          uri: mongodb://prisma:prisma@mongo
+    MONGO_INITDB_ROOT_USERNAME: topsecret
+    MONGO_INITDB_ROOT_PASSWORD: topsecret
+  services:
+    - name: mongo:3.6
+      alias: mongo
+    - name: YOUR_LOCAL_DOCKER_REGISTRY:5000/myprisma
+      alias: prisma
+  script:
+    - echo "Testing App-server"
+    - cd ./server
+    - chmod +x wait-for-prisma.sh
+    - ./wait-for-prisma.sh
+    - cd ./prisma
+    - prisma deploy
+    - CI=true npm run test:cicd
+    - echo "Test succesfully"
+  only:
+    - master
+
+deploy-prod:
+  stage: deploy-prod
+  image: traherom/kustomize-docker
+  before_script:
+    - printenv
+    - kubectl version
+    - echo $KUBECONFIG
+  script:
+    - kubectl config set-cluster k8s --server="${SERVER}"
+    - kubectl config set clusters.k8s.certificate-authority-data ${CERTIFICATE_AUTHORITY_DATA}
+    - kubectl config set-credentials gitlab --token="${USER_TOKEN}"
+    - kubectl config set-context default --cluster=k8s --user=gitlab
+    - kubectl config use-context default
+    - kubectl get all
+    - kubectl apply -f DevOps/demo
+  only:
+    - master

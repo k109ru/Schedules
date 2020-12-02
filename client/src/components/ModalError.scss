@@ -1,0 +1,15 @@
+.modal-error {
+  min-height: 30vh;
+
+  &__title {
+    font-size: 30px;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  &__message {
+    font-size: 20px;
+    margin-top: 10px;
+    text-align: center;
+  }
+}

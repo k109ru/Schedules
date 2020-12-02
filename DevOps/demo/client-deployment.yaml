@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schedules-client-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      id: schedules-client-demo
+      type: main
+  template:
+    metadata:
+      labels:
+        id: schedules-client-demo
+        type: main
+    spec:
+      containers:
+      - image: YOUR_LOCAL_DOCKER_REGISTRY:5000/schedules-client-demo:v0.2.6
+        imagePullPolicy: Always
+        name: schedules-client-demo
+        env:
+        - name: REACT_APP_API_URL
+          value: https://schedules-server-demo.k109.ru

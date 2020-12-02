@@ -1,0 +1,11 @@
+
+  {
+        "*.js": [
+            "eslint"
+        ],
+        "**/*.+(js|json|yml|yaml|css|scss|md|graphql)": [
+            "prettier --write",
+            "git add ."
+        ]
+    }
+

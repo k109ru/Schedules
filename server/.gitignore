@@ -1,0 +1,12 @@
+.DS_Store
+node_modules
+package-lock.json
+coverage
+build
+.DS_Store
+.env
+*.log
+.e2e
+cypress/videos
+cypress/screenshots
+dist

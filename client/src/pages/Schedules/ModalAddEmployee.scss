@@ -1,0 +1,22 @@
+.employee__table {
+  margin: 1rem;
+
+  &-container {
+    min-width: 900px;
+    background-color: rgb(70, 66, 66);
+  }
+}
+
+.employee__th {
+  padding: 2px;
+  font-size: 1.6rem;
+  color: rgb(100, 182, 100);
+  border: 1px solid rgb(0, 0, 0);
+}
+
+.employee__button-close {
+  font-size: 1.5rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+}

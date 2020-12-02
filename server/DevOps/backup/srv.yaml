@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+  labels:
+    run: mongo
+spec:
+  selector:
+    run: mongo
+  ports:
+    - name: mongo
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prisma
+  labels:
+    run: prisma
+spec:
+  selector:
+    run: prisma
+  ports:
+    - name: prisma
+      protocol: TCP
+      port: 4466
+      targetPort: 4466

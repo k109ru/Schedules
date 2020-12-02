@@ -1,0 +1,192 @@
+type Admin {
+    id: ID! @id
+    name: String!
+    email: String! @unique
+    password: String!
+    language: String
+    schedules: [Schedule!] @relation(link: INLINE)
+    users: [User!] @relation(link: INLINE)
+}
+
+type Schedule {
+    id: ID! @id
+    nameSchedule: String!
+    owner: Admin!
+    year: Int!
+    month: Month!
+    amountOfWorkingHours: Float
+    typeOfWeek: Float!
+    theader: String 
+    employees: [Employee!]
+}
+
+type Employee @embedded {
+    id: ID! @id
+    fullname: String!
+    rateOfWork: Float
+    hoursOfMonth: String
+    positionOfEmployee: PositionOfEmployee!
+    daysOfEmployee: [DayOfEmployee!]   
+}
+
+type PositionOfEmployee @embedded {
+    namePosition: String!
+    hoursOfWork: WorkTimeE!
+    secondHoursOfWork: SecondWorkTimeE
+    lunch: LunchTimeE
+    secondLunch: SecondLunchTimeE
+    fulltime: Boolean! @default(value: true)
+    longOfDay: String!
+}
+
+type WorkTimeE @embedded {
+    startWork: String!
+    endWork: String!
+}
+
+type SecondWorkTimeE @embedded {
+    startSecondWork: String!
+    endSecondWork: String!
+}
+
+type LunchTimeE @embedded {
+    startLunch: String!
+    endLunch: String!
+}
+
+type SecondLunchTimeE @embedded {
+    startSecondLunch: String!
+    endSecondLunch: String!
+}
+
+type DayOfEmployee @embedded {
+    id: ID! @id
+    number: Int!
+    weekday: Boolean @default(value: true)
+    weekend: Boolean @default(value: false)
+    holiday: Boolean @default(value: false)
+    beforeHoliday: Boolean @default(value: false)
+    firstStartWork: String
+    firstStopWork: String
+    secondStartWork: String
+    secondStopWork: String
+    kind: Kind!
+}
+
+type Kind @embedded {
+    businessTrip: Boolean @default(value: false)
+    study: Boolean @default(value: false)
+    studyAdd: Boolean @default(value: false)
+    unknown: Boolean @default(value: false)
+    absenteeism: Boolean @default(value: false)
+    goverment: Boolean @default(value: false)
+    holiday: Boolean @default(value: false)
+    disease: Boolean @default(value: false)
+    vacation: Boolean @default(value: false)
+    childCare: Boolean @default(value: false)
+    admVacation: Boolean @default(value: false)
+    overTime: Boolean @default(value: false)
+    nightTime: Boolean @default(value: false)
+    working: Boolean @default(value: true)
+}
+
+type Month @embedded {
+    id: ID! @id
+    days: [Day!]
+    nameOfMonth: String!
+    daysAmount: Int!
+    weekdays: [Weekday]
+    weekends: [Weekend]
+    holidays: [Holiday]
+    beforeHolidays: [BeforeHoliday]
+}
+
+type Weekday @embedded {
+    num: Int!
+    id: String!
+    isChecked: Boolean!
+}
+
+type Weekend @embedded {
+    num: Int!
+    id: String!
+    isChecked: Boolean!
+}
+
+type Holiday @embedded {
+    num: Int!
+    id: String!
+    isChecked: Boolean!
+}
+
+type BeforeHoliday @embedded {
+    num: Int!
+    id: String!
+    isChecked: Boolean!
+}
+
+type Day @embedded {
+    id: ID! @id
+    number: Int!
+    weekday: Boolean @default(value: true)
+    weekend: Boolean @default(value: false)
+    holiday: Boolean @default(value: false)
+    beforeHoliday: Boolean @default(value: false)
+    kindOfDay: KindOfDay
+}
+
+type User {
+    id: ID! @id
+    fullname: String!
+    owner: Admin!
+    position: Position!
+    rateOfWork: Float
+}
+
+type Position @embedded {
+    namePosition: String!
+    hoursOfWork: WorkTime!
+    secondHoursOfWork: SecondWorkTime
+    lunch: LunchTime
+    secondLunch: SecondLunchTime
+    fulltime: Boolean! @default(value: true)
+    longOfDay: String!
+    hoursOfMonth: String
+}
+
+type WorkTime @embedded {
+    startWork: String!
+    endWork: String!
+}
+
+type SecondWorkTime @embedded {
+    startSecondWork: String!
+    endSecondWork: String!
+}
+
+type LunchTime @embedded {
+    startLunch: String!
+    endLunch: String!
+}
+
+type SecondLunchTime @embedded {
+    startSecondLunch: String!
+    endSecondLunch: String!
+}
+
+type KindOfDay @embedded {
+    businessTrip: Boolean @default(value: false)
+    study: Boolean @default(value: false)
+    studyAdd: Boolean @default(value: false)
+    unknown: Boolean @default(value: false)
+    absenteeism: Boolean @default(value: false)
+    goverment: Boolean @default(value: false)
+    holiday: Boolean @default(value: false)
+    disease: Boolean @default(value: false)
+    vacation: Boolean @default(value: false)
+    childCare: Boolean @default(value: false)
+    admVacation: Boolean @default(value: false)
+    overTime: Boolean @default(value: false)
+    nightTime: Boolean @default(value: false)
+    working: Boolean @default(value: true)
+}

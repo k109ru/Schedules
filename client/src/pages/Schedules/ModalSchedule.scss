@@ -1,0 +1,44 @@
+.schedule-modal {
+  &__noday {
+    width: 40rem;
+    height: 10rem;
+  }
+
+  &__title {
+    text-align: center;
+    font-size: 3rem;
+    // background-color: gray;
+    background-color: rgb(70, 66, 66);
+    color: greenyellow;
+  }
+
+  &__input {
+    width: 14rem;
+  }
+
+  &__checkboxes {
+    height: 40rem;
+    display: flex;
+    flex-direction: row;
+    font-size: 1.6rem;
+  }
+
+  &__checkbox {
+    width: 5rem;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 4px;
+  }
+}
+
+.checkbox__item {
+  padding: 2px;
+  width: 14rem;
+  min-height: 8.5rem;
+  color: greenyellow;
+  font-size: 1.4rem;
+  text-align: center;
+  border: 1px solid gold;
+  border-radius: 2px;
+  margin: 0 2px;
+}

@@ -1,0 +1,37 @@
+// .schedule__menu {
+//     margin-top: 1150px;
+//     background-color: goldenrod;
+// }
+.schedule__menu-buttons {
+  display: flex;
+  margin: 20px;
+  // border: 1px solid rgb(0, 0, 0);
+}
+
+.menu {
+  display: flex;
+  margin: 20px;
+  border: 1px solid rgb(0, 0, 0);
+}
+
+.menu__item {
+  width: 150px;
+  margin: 20px;
+}
+
+.menu-schedule__button {
+  // margin: 5px;
+}
+
+.schedule__error {
+  background-color: rgb(238, 105, 105);
+}
+
+.schedule__ok {
+  background-color: rgb(87, 209, 140);
+}
+
+.delete--rot {
+  display: block;
+  transform: rotate(-90deg);
+}

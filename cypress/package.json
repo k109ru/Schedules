@@ -1,0 +1,26 @@
+{
+  "name": "schedules_cypress",
+  "version": "0.2.6",
+  "description": "Schedules_cypress_testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm-run-all --parallel dev:*",
+    "start:server": "npm run --prefix ../../AnastasiaProjectServer/server testcypress",
+    "start:client": "npm --prefix ../../AnastasiaProjectClient2/client start",
+    "start": "npm-run-all --parallel start:*",
+    "cy:run": "cypress run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@testing-library/cypress": "^7.0.0",
+    "cypress": "^5.2.0",
+    "eslint": "^7.9.0",
+    "eslint-plugin-cypress": "^2.11.1",
+    "npm-run-all": "^4.1.5",
+    "start-server-and-test": "^1.11.4",
+    "test-data-bot": "^0.8.0"
+  }
+}

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schedules-server-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      id: schedules-server-demo
+      type: main
+  template:
+    metadata:
+      labels:
+        id: schedules-server-demo
+        type: main
+    spec:
+      containers:
+      - image: YOUR_LOCAL_DOCKER_REGISTRY:5000/schedules-server-demo:v0.2.6
+        command: ["/bin/sh","-c"]
+        args: ["sleep 10 && prisma deploy && npm start"]
+        imagePullPolicy: Always
+        name: schedules-server-demo
+        env: 
+        - name: PRISMA_ENDPOINT
+          value: http://prisma-demo:4466/
+        - name: PRISMA_SECRET
+          value: topsecret
+        - name: JWT_SECRET
+          value: topsecret
+        - name: FRONTEND_URL
+          value: https://schedules-client-demo.k109.ru
