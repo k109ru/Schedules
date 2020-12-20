@@ -1,0 +1,33 @@
+{
+  "name": "schedule_all",
+  "version": "0.2.6",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lintc": "eslint client/src",
+    "lints": "eslint server/src",
+    "lintcy": "eslint cypress/cypress/e2e",
+    "lint": "npm run lintc && npm run lints && npm run lintcy",
+    "format": "npm run prettier -- --write",
+    "prettier": "prettier \"**/*.+(js|jsx|json|yml|yaml|css|scss|md|graphql)\"",
+    "validate": "npm run lint && npm run prettier -- --list-different"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/k109ru/Schedules"
+  },
+  "keywords": [],
+  "author": "Sergey Starostin",
+  "license": "GLPv3",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-cypress": "^2.11.2",
+    "eslint-plugin-react": "^7.20.0",
+    "husky": "^4.3.6",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1"
+  }
+}
